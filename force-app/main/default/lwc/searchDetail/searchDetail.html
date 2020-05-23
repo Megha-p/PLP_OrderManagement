@@ -1,0 +1,166 @@
+<template>
+   <div class="slds-m-around_medium">
+     
+     <div class="slds-m-bottom_small">
+         <lightning-input type="search"
+            value={sVal}
+            label="Product Name"
+            onchange={updateSeachKey}
+            placeholder="Enter Product Name to be searched"
+            style="width: 400px;"
+            ></lightning-input>
+
+            <lightning-input type="search"
+            value={sVal1}
+            label="Product Brand"
+            onchange={updateSeach}
+            placeholder="Enter Brand Name to be searched"
+            style="width: 400px;"
+            ></lightning-input>
+
+            <lightning-input type="search"
+            value={sVal2}
+            label="Product MRP"
+            onchange={updateMRP}
+            placeholder="Enter MRP to be searched"
+            style="width: 400px;"
+            ></lightning-input>
+      </div>
+      
+      <lightning-button label="Search"
+         onclick={handleSearch}
+         variant="brand"  icon-name="action:filter"></lightning-button>
+         &nbsp;&nbsp;&nbsp;&nbsp;
+         <lightning-button label="Clear" onclick={clear} variant="brand" icon-name="action:remove"></lightning-button>
+         
+       
+      <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-top_small">
+         <thead>
+            <tr class="slds-line-height_reset">
+               <th class="" scope="col">
+                  <div class="slds-truncate" title="Product Name">Product Name</div>
+               </th>
+              
+               <th class="" scope="col">
+                  <div class="slds-truncate" title="Email">Price Book Name</div>
+               </th>
+               <th class="" scope="col">
+                  <div class="slds-truncate" title="Email">Brand</div>
+               </th>
+               
+               <th class="" scope="col">
+                  <div class="slds-truncate" title="Email">Unit Price</div>
+               </th>
+              
+                <th class="" scope="col">
+                 <div class="slds-truncate" title="Email">Save</div>
+              </th>
+            </tr>
+         </thead>
+         
+         <tbody>   
+            <template for:each={order} for:item='e' for:index="i">
+               <tr class="slds-hint-parent" key={e.Name}>
+                  <td>
+                     <div class="slds-truncate">{e.Product_Name__c}</div>
+                  </td>
+                 
+                  <td>
+                     <div class="slds-truncate">
+                        {e.PBName__c} 
+                       
+                     </div>
+                  </td>
+                  <td>
+                     <div class="slds-truncate">
+                        {e.Brand__c} 
+                       
+                     </div>
+                  </td>
+                 
+                  <td>
+                     <div class="slds-truncate">
+                       {e.UnitPrice} 
+                     </div>
+                  </td>
+                 
+                 
+                <td>
+                <div><lightning-button label="Add" onclick={edit} value={i} icon-name="utility:add"></lightning-button>
+                
+           
+              </div>
+              </td>
+               </tr>
+               
+            </template>
+         </tbody>
+      </table>
+
+      <template if:true={open}>
+         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+             <div class="slds-modal__container">
+                 <!-- modal header start -->
+                 <header class="slds-modal__header">
+                  
+                    <h2  class="slds-text-heading_medium slds-hyphenate">Add OrderProduct</h2>
+                 </header>
+                 
+                 <div class="slds-modal__content slds-p-around_medium">
+                   <div class="slds-p-bottom_large slds-p-left_large" >
+                   <lightning-record-edit-form object-api-name="OrderItem" onsuccess={handleSuccess} onerror={handleError}>
+                  <lightning-input-field field-name="Quantity" value={Quantity} >
+                  </lightning-input-field>
+                  <lightning-input-field field-name="OrderId" value={ordId} onchange={ordCh}> 
+                  </lightning-input-field>
+                  <lightning-input-field field-name="UnitPrice" value={up}  >
+                  </lightning-input-field>
+                  <lightning-input-field field-name="PricebookEntryId"  value={id}>
+                  </lightning-input-field>
+                  <lightning-button
+                  class="slds-m-top_small"
+                  label="Add Item" variant="brand"
+                  type="submit" icon-name="standard:record_create" name="save">
+                 </lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                   <lightning-button
+                  class="slds-m-top_small"
+                  label="Cancel" onclick={cancel} variant="brand" icon-name="action:remove">
+              </lightning-button>
+             </lightning-record-edit-form>
+          </div>
+         </div>
+       </div>
+         </section>
+      </template>
+
+
+      <template if:true={ad}>
+         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+             <div class="slds-modal__container">
+                
+                 <div class="slds-modal__content slds-p-around_medium">
+                   <div class="slds-p-bottom_large slds-p-left_large">
+                     <h2  class="slds-text-heading_medium slds-hyphenate">How would you like to proceed?? </h2></br>
+                  <lightning-button
+                  class="slds-m-top_small"
+                  label="Add More" variant="brand" icon-name="utility:add"
+                  onclick={addmore} >
+                 </lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                   <lightning-button
+                  class="slds-m-top_small"
+                  label="Cancel" onclick={cancel} variant="brand" icon-name="action:remove"> 
+              </lightning-button>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+          
+
+       
+          </div>
+         </div>
+       </div>
+         </section>
+      </template>
+    
+   </div>
+</template>
